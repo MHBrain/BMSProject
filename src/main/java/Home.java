@@ -31,12 +31,18 @@ public class Home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lblHome = new javax.swing.JLabel();
         btnTestConnection = new javax.swing.JButton();
+        btnInventory = new javax.swing.JButton();
+        btnSales = new javax.swing.JButton();
+        btnSchedule = new javax.swing.JButton();
+        btnEmployees = new javax.swing.JButton();
+        btnSuppliers = new javax.swing.JButton();
+        btnAudit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Home Menu");
+        lblHome.setText("Home Menu");
 
         btnTestConnection.setText("Test Connection");
         btnTestConnection.addActionListener(new java.awt.event.ActionListener() {
@@ -45,6 +51,45 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        btnInventory.setText("Inventory");
+        btnInventory.setMinimumSize(new java.awt.Dimension(100, 25));
+        btnInventory.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnInventory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInventoryActionPerformed(evt);
+            }
+        });
+
+        btnSales.setText("Sales");
+        btnSales.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnSales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalesActionPerformed(evt);
+            }
+        });
+
+        btnSchedule.setText("Schedule");
+        btnSchedule.setPreferredSize(new java.awt.Dimension(100, 25));
+
+        btnEmployees.setText("Employees");
+        btnEmployees.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnEmployees.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmployeesActionPerformed(evt);
+            }
+        });
+
+        btnSuppliers.setText("Suppliers");
+        btnSuppliers.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnSuppliers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuppliersActionPerformed(evt);
+            }
+        });
+
+        btnAudit.setText("Audit Log");
+        btnAudit.setPreferredSize(new java.awt.Dimension(100, 25));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -52,21 +97,43 @@ public class Home extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnTestConnection)))
-                .addContainerGap(185, Short.MAX_VALUE))
+                        .addComponent(btnTestConnection)
+                        .addGap(38, 38, 38)
+                        .addComponent(lblHome))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSuppliers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSchedule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(69, 69, 69)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAudit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(btnTestConnection)
-                .addContainerGap(234, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblHome)
+                    .addComponent(btnTestConnection))
+                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSchedule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEmployees, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSuppliers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAudit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         pack();
@@ -81,6 +148,30 @@ public class Home extends javax.swing.JFrame {
             System.out.println("lol unlucky loser");
         }
     }//GEN-LAST:event_btnTestConnectionActionPerformed
+
+    private void btnInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventoryActionPerformed
+        // TODO add your handling code here:
+            new Inventory().setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnInventoryActionPerformed
+
+    private void btnSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalesActionPerformed
+        // TODO add your handling code here:
+            new Sales().setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnSalesActionPerformed
+
+    private void btnEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmployeesActionPerformed
+        // TODO add your handling code here:
+            new Employees().setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnEmployeesActionPerformed
+
+    private void btnSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuppliersActionPerformed
+        // TODO add your handling code here:
+            new Suppliers().setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnSuppliersActionPerformed
 
     /**
      * @param args the command line arguments
@@ -118,7 +209,13 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAudit;
+    private javax.swing.JButton btnEmployees;
+    private javax.swing.JButton btnInventory;
+    private javax.swing.JButton btnSales;
+    private javax.swing.JButton btnSchedule;
+    private javax.swing.JButton btnSuppliers;
     private javax.swing.JButton btnTestConnection;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblHome;
     // End of variables declaration//GEN-END:variables
 }

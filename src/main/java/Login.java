@@ -118,7 +118,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
         // TODO add your handling code here:
-        if (txtUsername.getText().equals("p0ur") && txtPassword.getText().equals("d3c1s10n5$")){
+        if (txtUsername.getText().equals("user") && txtPassword.getText().equals("pass")){
             new Home().setVisible(true);
             this.dispose();
         } else {
