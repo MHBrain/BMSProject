@@ -70,6 +70,11 @@ public class Home extends javax.swing.JFrame {
 
         btnSchedule.setText("Schedule");
         btnSchedule.setPreferredSize(new java.awt.Dimension(100, 25));
+        btnSchedule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnScheduleActionPerformed(evt);
+            }
+        });
 
         btnEmployees.setText("Employees");
         btnEmployees.setPreferredSize(new java.awt.Dimension(100, 25));
@@ -172,6 +177,12 @@ public class Home extends javax.swing.JFrame {
             new Suppliers().setVisible(true);
             this.dispose();
     }//GEN-LAST:event_btnSuppliersActionPerformed
+
+    private void btnScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScheduleActionPerformed
+        // TODO add your handling code here:
+            new Schedule().setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnScheduleActionPerformed
 
     /**
      * @param args the command line arguments
