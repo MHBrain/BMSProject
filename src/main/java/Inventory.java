@@ -101,7 +101,7 @@ public class Inventory extends javax.swing.JFrame {
     private void btnIngredientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngredientsActionPerformed
         // TODO add your handling code here:
         new Ingredients().setVisible(true);
-        this.dispose();jjjjjjjjjjjjjjjjj
+        this.dispose();
     }//GEN-LAST:event_btnIngredientsActionPerformed
 
     /**
