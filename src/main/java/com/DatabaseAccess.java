@@ -18,7 +18,7 @@ import java.sql.Statement;
 public class DatabaseAccess {
     
     private static final String CONN_URL = "jdbc:mysql://computing.gfmat.org:3306/";
-    private static final String DB_NAME = "MBrain_test";
+    private static final String DB_NAME = "BMSProject";
     private static final String USERNAME = "MBrain";
     private static final String PASSWORD = "hkFfdZ2X3N";
     //Declaring database information; final = constant

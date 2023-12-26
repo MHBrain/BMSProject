@@ -8,8 +8,34 @@
  *
  * @author 1-MBrain
  */
-public class Login extends javax.swing.JFrame {
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Login extends javax.swing.JFrame {
+    
+    private static final String CONN_URL = "jdbc:mysql://computing.gfmat.org:3306/";
+    private static final String DB_NAME = "BMSProject";
+    private static final String USERNAME = "MBrain";
+    private static final String PASSWORD = "hkFfdZ2X3N";
+    
+    private boolean loginFunction(String username, String password) {
+    String sql = "SELECT * FROM tblEmployees WHERE Username = '" + username + "' AND Password = '" + password + "'";
+    try (Connection conn = DriverManager.getConnection(CONN_URL + DB_NAME, USERNAME, PASSWORD);
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(sql)) {
+
+        return rs.next();
+
+    } catch (Exception e) {
+        System.out.println("Database Error: " + e.getMessage());
+        return false;
+    }
+}
+    
     /**
      * Creates new form Login
      */
@@ -110,19 +136,24 @@ public class Login extends javax.swing.JFrame {
 
     private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
         // TODO add your handling code here:
+        txtPassword.grabFocus(); // on enter, move to next field
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
         // TODO add your handling code here:
+        btnLogIn.grabFocus(); // on enter, move to next field
     }//GEN-LAST:event_txtPasswordActionPerformed
 
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
         // TODO add your handling code here:
-        if (txtUsername.getText().equals("user") && txtPassword.getText().equals("pass")){
-            new Home().setVisible(true);
-            this.dispose();
+        String username = txtUsername.getText();
+        String password = new String(txtPassword.getPassword());
+        if (loginFunction(username, password)) {
+            new Home().setVisible(true); // open home page
+            this.dispose(); // close login page
         } else {
-            new LoginError().setVisible(true);
+            new LoginError().setVisible(true); // open login error page
+            txtUsername.grabFocus(); // bring focus back to username field
         }
     }//GEN-LAST:event_btnLogInActionPerformed
 
