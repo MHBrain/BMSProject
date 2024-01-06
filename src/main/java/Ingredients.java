@@ -22,7 +22,7 @@ public class Ingredients extends javax.swing.JFrame {
         updateTable();
     }
     
-    private void updateTable() {
+    public void updateTable() {
         DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel();
         model.setRowCount(0);
 
@@ -67,6 +67,7 @@ public class Ingredients extends javax.swing.JFrame {
         jtblIngredients = new javax.swing.JTable();
         btnAddIng = new javax.swing.JButton();
         btnUpdIng = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,7 +88,7 @@ public class Ingredients extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "IngredientID", "IngredientName", "IngredientQuantity", "SupplierID", "UnitCost", "NeedsReorder"
+                "ID", "Name", "Quantity", "Supplier ID", "Unit Cost", "Reorder?"
             }
         ));
         jScrollPane1.setViewportView(jtblIngredients);
@@ -100,6 +101,18 @@ public class Ingredients extends javax.swing.JFrame {
         });
 
         btnUpdIng.setText("Update Ingredient");
+        btnUpdIng.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdIngActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,13 +124,16 @@ public class Ingredients extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(btnHome)
                         .addGap(64, 64, 64)
-                        .addComponent(lblIngredientManagement))
+                        .addComponent(lblIngredientManagement)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRefresh))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addComponent(btnAddIng)
                         .addGap(63, 63, 63)
-                        .addComponent(btnUpdIng)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                        .addComponent(btnUpdIng)
+                        .addGap(0, 60, Short.MAX_VALUE)))
+                .addContainerGap())
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -126,7 +142,8 @@ public class Ingredients extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHome)
-                    .addComponent(lblIngredientManagement))
+                    .addComponent(lblIngredientManagement)
+                    .addComponent(btnRefresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
                 .addGap(27, 27, 27)
@@ -145,7 +162,17 @@ public class Ingredients extends javax.swing.JFrame {
 
     private void btnAddIngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddIngActionPerformed
         // TODO add your handling code here:
+        new IngredientAdd().setVisible(true);
     }//GEN-LAST:event_btnAddIngActionPerformed
+
+    private void btnUpdIngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdIngActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdIngActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        updateTable();
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,6 +212,7 @@ public class Ingredients extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddIng;
     private javax.swing.JButton btnHome;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnUpdIng;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtblIngredients;

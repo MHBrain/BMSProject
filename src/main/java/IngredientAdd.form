@@ -30,12 +30,15 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblName" min="-2" max="-2" attributes="0"/>
                           <Component id="lblQuantity" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblUnitCost" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSupplierID" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jTextField3" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="txtUnitCost" min="-2" pref="100" max="-2" attributes="0"/>
                           <Component id="txtName" min="-2" pref="100" max="-2" attributes="0"/>
                           <Component id="txtQuantity" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="txtSupplierID" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -48,8 +51,12 @@
                           </Group>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                      <Component id="chkNeedsOrder" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="57" max="32767" attributes="0"/>
+              <EmptySpace pref="47" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -58,21 +65,31 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblAddIngredient" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblName" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jTextField3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtUnitCost" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblUnitCost" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblSupplierID" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtSupplierID" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="chkNeedsOrder" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Component id="AddButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="27" max="32767" attributes="0"/>
+              <EmptySpace pref="25" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -87,7 +104,10 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtQuantity">
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="txtUnitCost">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUnitCostActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="AddButton">
       <Properties>
@@ -106,6 +126,29 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Quantity"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblUnitCost">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Unit Cost"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSupplierID">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Supplier ID"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtSupplierID">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSupplierIDActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chkNeedsOrder">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Needs Order?"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkNeedsOrderActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
