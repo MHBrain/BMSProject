@@ -76,13 +76,13 @@ public class Products extends javax.swing.JFrame {
 
         jtblIngredients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Quantity", "Supplier", "Cost"
+                "ID", "Name", "Quantity", "Price"
             }
         ));
         jScrollPane1.setViewportView(jtblIngredients);

@@ -166,7 +166,6 @@ public class Home extends javax.swing.JFrame {
 
     private void btnSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalesActionPerformed
         // TODO add your handling code here:
-            new Sales().setVisible(true);
             this.dispose();
     }//GEN-LAST:event_btnSalesActionPerformed
 
@@ -178,13 +177,11 @@ public class Home extends javax.swing.JFrame {
 
     private void btnSuppliersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuppliersActionPerformed
         // TODO add your handling code here:
-            new Suppliers().setVisible(true);
             this.dispose();
     }//GEN-LAST:event_btnSuppliersActionPerformed
 
     private void btnScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScheduleActionPerformed
         // TODO add your handling code here:
-            new Schedule().setVisible(true);
             this.dispose();
     }//GEN-LAST:event_btnScheduleActionPerformed
 

@@ -4,10 +4,8 @@
  * and open the template in the editor.
  */
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,29 +19,36 @@ public class Ingredients extends javax.swing.JFrame {
      */
     public Ingredients() {
         initComponents();
-        loadIngredientData();
+        updateTable();
     }
+    
+    private void updateTable() {
+        DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel();
+        model.setRowCount(0);
 
-    public void loadIngredientData() {
-    DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel();
-    model.setRowCount(0); // empties the table current values
+    String query = "SELECT * FROM tblIngredients";
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
+             PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/MBrain_test", "MBrain", "hkFfdZ2X3N");
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery("SELECT * FROM tblIngredients")) {
+            String[] columnNames = {"IngredientID", "IngredientName", "IngredientQuantity", "SupplierID", "UnitCost", "NeedsReorder"};
+            model.setColumnIdentifiers(columnNames);
 
-        while (rs.next()) {
-            Object[] row = new Object[5];
-            row[0] = rs.getInt("IngredientID");
-            row[1] = rs.getString("IngredientName");
-            row[2] = rs.getInt("IngredientQuantity");
-            row[3] = rs.getInt("SupplierID");
-            row[4] = rs.getBigDecimal("UnitCost");
-            model.addRow(row);
+            while (rs.next()) {
+                Object[] row = {
+                    rs.getInt("IngredientID"),
+                    rs.getString("IngredientName"),
+                    rs.getInt("IngredientQuantity"),
+                    rs.getInt("SupplierID"),
+                    rs.getBigDecimal("UnitCost"),
+                    rs.getBoolean("NeedsReorder")
+                };
+                model.addRow(row);
+            }
+            
+        } catch (SQLException e) {
+        	System.out.println("Database Error: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("Database Error: " + e.getMessage());
-    }
     }
 
     
@@ -76,18 +81,23 @@ public class Ingredients extends javax.swing.JFrame {
 
         jtblIngredients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Quantity", "Supplier", "Cost"
+                "IngredientID", "IngredientName", "IngredientQuantity", "SupplierID", "UnitCost", "NeedsReorder"
             }
         ));
         jScrollPane1.setViewportView(jtblIngredients);
 
         btnAddIng.setText("Add Ingredient");
+        btnAddIng.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddIngActionPerformed(evt);
+            }
+        });
 
         btnUpdIng.setText("Update Ingredient");
 
@@ -132,6 +142,10 @@ public class Ingredients extends javax.swing.JFrame {
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnHomeActionPerformed
+
+    private void btnAddIngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddIngActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddIngActionPerformed
 
     /**
      * @param args the command line arguments
