@@ -187,6 +187,8 @@ public class Home extends javax.swing.JFrame {
 
     private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed
         // TODO add your handling code here:
+        new Products().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnProductsActionPerformed
 
     /**

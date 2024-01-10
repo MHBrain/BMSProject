@@ -21,24 +21,25 @@ public class Products extends javax.swing.JFrame {
      */
     public Products() {
         initComponents();
-        loadIngredientData();
+        loadProductData();
     }
 
-    public void loadIngredientData() {
-    DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel();
+    public void loadProductData() {
+    DefaultTableModel model = (DefaultTableModel) jtblProducts.getModel();
     model.setRowCount(0); // empties the table current values
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/MBrain_test", "MBrain", "hkFfdZ2X3N");
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
          Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery("SELECT * FROM tblIngredients")) {
+         ResultSet rs = stmt.executeQuery("SELECT * FROM tblProducts")) {
 
         while (rs.next()) {
             Object[] row = new Object[5];
-            row[0] = rs.getInt("IngredientID");
-            row[1] = rs.getString("IngredientName");
-            row[2] = rs.getInt("IngredientQuantity");
-            row[3] = rs.getInt("SupplierID");
-            row[4] = rs.getBigDecimal("UnitCost");
+            row[0] = rs.getInt("ProductID");
+            row[1] = rs.getString("ProductName");
+            row[2] = rs.getInt("ProductQuantity");
+            row[3] = rs.getInt("UnitPrice");
+            row[4] = rs.getBoolean("NeedsProduction");
+
             model.addRow(row);
         }
     } catch (Exception e) {
@@ -59,7 +60,7 @@ public class Products extends javax.swing.JFrame {
         btnHome = new javax.swing.JButton();
         lblProductManagement = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtblIngredients = new javax.swing.JTable();
+        jtblProducts = new javax.swing.JTable();
         btnAddProd = new javax.swing.JButton();
         btnUpdProd = new javax.swing.JButton();
 
@@ -74,7 +75,7 @@ public class Products extends javax.swing.JFrame {
 
         lblProductManagement.setText("Product Management");
 
-        jtblIngredients.setModel(new javax.swing.table.DefaultTableModel(
+        jtblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -85,7 +86,7 @@ public class Products extends javax.swing.JFrame {
                 "ID", "Name", "Quantity", "Price"
             }
         ));
-        jScrollPane1.setViewportView(jtblIngredients);
+        jScrollPane1.setViewportView(jtblProducts);
 
         btnAddProd.setText("Add Product");
 
@@ -173,7 +174,7 @@ public class Products extends javax.swing.JFrame {
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnUpdProd;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtblIngredients;
+    private javax.swing.JTable jtblProducts;
     private javax.swing.JLabel lblProductManagement;
     // End of variables declaration//GEN-END:variables
 }
