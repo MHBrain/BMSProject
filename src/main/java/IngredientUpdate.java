@@ -4,11 +4,19 @@
  * and open the template in the editor.
  */
 
+import java.sql.*;
+import javax.swing.*;
+import java.math.BigDecimal;
+
 /**
  *
  * @author Max
  */
 public class IngredientUpdate extends javax.swing.JFrame {
+    
+    private static final String DB_URL = "jdbc:mysql://computing.gfmat.org:3306/BMSProject";
+    private static final String USER = "MBrain";
+    private static final String PASS = "hkFfdZ2X3N";
 
     /**
      * Creates new form InventoryUpdate
@@ -30,14 +38,19 @@ public class IngredientUpdate extends javax.swing.JFrame {
         txtIDInput = new javax.swing.JTextField();
         btnFindItem = new javax.swing.JButton();
         lblSelectedID = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
+        txtNewID = new javax.swing.JTextField();
         txtQuantity = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        btnName = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        txtCost = new javax.swing.JTextField();
         lblUpdateName = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblUpdateQuantity = new javax.swing.JLabel();
+        btnUpdate = new javax.swing.JToggleButton();
+        lblUpdateCost = new javax.swing.JLabel();
+        lblUpdateID = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
+        chkNeedsOrder = new javax.swing.JCheckBox();
+        lblUpdateSupplier = new javax.swing.JLabel();
+        txtSupplierID = new javax.swing.JTextField();
+        btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,90 +63,164 @@ public class IngredientUpdate extends javax.swing.JFrame {
         });
 
         btnFindItem.setText("ID Search");
-
-        lblSelectedID.setText("Currently Selected: ");
-
-        btnName.setText("jButton1");
-        btnName.addActionListener(new java.awt.event.ActionListener() {
+        btnFindItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNameActionPerformed(evt);
+                btnFindItemActionPerformed(evt);
             }
         });
 
-        jButton1.setText("jButton1");
+        lblSelectedID.setText("Currently Selected: ");
 
-        jButton2.setText("jButton2");
+        txtNewID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNewIDActionPerformed(evt);
+            }
+        });
+
+        txtQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtQuantityActionPerformed(evt);
+            }
+        });
+
+        txtCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCostActionPerformed(evt);
+            }
+        });
 
         lblUpdateName.setText("Update Name");
 
-        jLabel1.setText("Update Quantity");
+        lblUpdateQuantity.setText("Update Quantity");
+
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        lblUpdateCost.setText("Update Cost");
+
+        lblUpdateID.setText("Update ID");
+
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
+
+        chkNeedsOrder.setText("Needs Order?");
+        chkNeedsOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkNeedsOrderActionPerformed(evt);
+            }
+        });
+
+        lblUpdateSupplier.setText("Update SupplierID");
+
+        txtSupplierID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSupplierIDActionPerformed(evt);
+            }
+        });
+
+        btnClose.setText("x");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(158, 158, 158)
+                .addComponent(btnUpdate)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(146, 146, 146)
+                .addComponent(chkNeedsOrder)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
+                .addComponent(txtIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnFindItem)
+                        .addGap(30, 30, 30)
+                        .addComponent(lblSelectedID)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                                .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblUpdateID)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtNewID, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(lblUpdateName)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnName))
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(lblUpdateQuantity)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnFindItem)
-                                .addGap(30, 30, 30)
-                                .addComponent(lblSelectedID)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap())
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblUpdateCost)
+                                    .addComponent(lblUpdateSupplier))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCost, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSupplierID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(89, 89, 89))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(142, 142, 142)
                 .addComponent(lblUpdateIngredient)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnClose))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblUpdateIngredient)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblUpdateIngredient))
+                    .addComponent(btnClose))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFindItem)
                     .addComponent(lblSelectedID))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnName)
-                            .addComponent(lblUpdateName))
-                        .addGap(50, 50, 50))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)))
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addContainerGap(76, Short.MAX_VALUE))
+                    .addComponent(txtNewID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUpdateID))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblUpdateName)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUpdateQuantity)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUpdateCost))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUpdateSupplier)
+                    .addComponent(txtSupplierID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(chkNeedsOrder)
+                .addGap(18, 18, 18)
+                .addComponent(btnUpdate)
+                .addContainerGap())
         );
 
         pack();
@@ -143,9 +230,111 @@ public class IngredientUpdate extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIDInputActionPerformed
 
-    private void btnNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameActionPerformed
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnNameActionPerformed
+        String name = txtName.getText();
+        if (!ValidationRoutines.isValidString(name, "name", this)) {
+            return;
+        }
+
+        Integer quantity = ValidationRoutines.parseInteger(txtQuantity.getText(), "quantity", this);
+        if (quantity == null || quantity <= 0) {
+            return;
+        }
+
+        BigDecimal unitCost = ValidationRoutines.parseBigDecimal(txtCost.getText(), "unit cost", this);
+        if (unitCost == null) {
+            return;
+        }
+
+        Integer supplierId = ValidationRoutines.parseInteger(txtSupplierID.getText(), "supplier ID", this);
+        if (supplierId == null) {
+            return;
+        }
+
+        boolean needsReorder = chkNeedsOrder.isSelected();
+
+        String query = "UPDATE tblIngredients SET "
+                         + "IngredientName = COALESCE(?, IngredientName), "
+                         + "IngredientQuantity = COALESCE(?, IngredientQuantity), "
+                         + "UnitCost = COALESCE(?, UnitCost), "
+                         + "NeedsReorder = ?, "
+                         + "SupplierID = COALESCE(?, SupplierID) "
+                         + "WHERE IngredientID = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, name.isEmpty() ? null : name);
+            pstmt.setObject(2, quantity); // setObject allows null
+            pstmt.setObject(3, unitCost);  // setObject allows null
+            pstmt.setBoolean(4, needsReorder);
+            pstmt.setObject(5, supplierId); // setObject allows null
+
+            int updatedRows = pstmt.executeUpdate();
+            if (updatedRows > 0) {
+                JOptionPane.showMessageDialog(this, "Ingredient updated successfully!");
+            } else {
+                JOptionPane.showMessageDialog(this, "No changes were made or ingredient not found.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error updating ingredient: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void txtNewIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNewIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNewIDActionPerformed
+
+    private void txtQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtQuantityActionPerformed
+
+    private void txtCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCostActionPerformed
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
+
+    private void chkNeedsOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNeedsOrderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkNeedsOrderActionPerformed
+
+    private void btnFindItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindItemActionPerformed
+        // TODO add your handling code here:
+       int id = Integer.parseInt(txtIDInput.getText());
+        String query = "SELECT * FROM tblIngredients WHERE IngredientID = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    txtNewID.setText(String.valueOf(rs.getInt("IngredientID")));
+                    txtName.setText(rs.getString("IngredientName"));
+                    txtQuantity.setText(String.valueOf(rs.getInt("IngredientQuantity")));
+                    txtCost.setText(rs.getBigDecimal("UnitCost").toPlainString());
+                    chkNeedsOrder.setSelected(rs.getBoolean("NeedsReorder"));
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ingredient not found!");
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error during search: " + ex.getMessage());
+        }
+
+    }//GEN-LAST:event_btnFindItemActionPerformed
+
+    private void txtSupplierIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSupplierIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSupplierIDActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,17 +375,22 @@ public class IngredientUpdate extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnFindItem;
-    private javax.swing.JButton btnName;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JToggleButton btnUpdate;
+    private javax.swing.JCheckBox chkNeedsOrder;
     private javax.swing.JLabel lblSelectedID;
+    private javax.swing.JLabel lblUpdateCost;
+    private javax.swing.JLabel lblUpdateID;
     private javax.swing.JLabel lblUpdateIngredient;
     private javax.swing.JLabel lblUpdateName;
+    private javax.swing.JLabel lblUpdateQuantity;
+    private javax.swing.JLabel lblUpdateSupplier;
+    private javax.swing.JTextField txtCost;
     private javax.swing.JTextField txtIDInput;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtNewID;
     private javax.swing.JTextField txtQuantity;
+    private javax.swing.JTextField txtSupplierID;
     // End of variables declaration//GEN-END:variables
 }

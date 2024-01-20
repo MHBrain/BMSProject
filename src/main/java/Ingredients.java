@@ -169,6 +169,7 @@ public class Ingredients extends javax.swing.JFrame {
 
     private void btnUpdIngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdIngActionPerformed
         // TODO add your handling code here:
+        new IngredientUpdate().setVisible(true);
     }//GEN-LAST:event_btnUpdIngActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed

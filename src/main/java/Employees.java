@@ -21,24 +21,25 @@ public class Employees extends javax.swing.JFrame {
      */
     public Employees() {
         initComponents();
-        loadIngredientData();
+        loadEmployeeData();
     }
 
-    public void loadIngredientData() {
-    DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel();
+    public void loadEmployeeData() {
+    DefaultTableModel model = (DefaultTableModel) jtblEmployees.getModel();
     model.setRowCount(0); // empties the table current values
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/MBrain_test", "MBrain", "hkFfdZ2X3N");
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
          Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery("SELECT * FROM tblIngredients")) {
+         ResultSet rs = stmt.executeQuery("SELECT * FROM tblEmployees")) {
 
         while (rs.next()) {
-            Object[] row = new Object[5];
-            row[0] = rs.getInt("IngredientID");
-            row[1] = rs.getString("IngredientName");
-            row[2] = rs.getInt("IngredientQuantity");
-            row[3] = rs.getInt("SupplierID");
-            row[4] = rs.getBigDecimal("UnitCost");
+            Object[] row = new Object[6];
+            row[0] = rs.getInt("EmployeeID");
+            row[1] = rs.getString("EmployeeName");
+            row[2] = rs.getString("Role");
+            row[3] = rs.getString("ContactInfo");
+            row[4] = rs.getString("Username");
+            row[5] = rs.getString("Password");
             model.addRow(row);
         }
     } catch (Exception e) {
@@ -59,7 +60,7 @@ public class Employees extends javax.swing.JFrame {
         btnHome = new javax.swing.JButton();
         lblEmployeeInfo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtblIngredients = new javax.swing.JTable();
+        jtblEmployees = new javax.swing.JTable();
         btnAddEmp = new javax.swing.JButton();
         btnUpdEmp = new javax.swing.JButton();
 
@@ -74,18 +75,18 @@ public class Employees extends javax.swing.JFrame {
 
         lblEmployeeInfo.setText("Employee Information");
 
-        jtblIngredients.setModel(new javax.swing.table.DefaultTableModel(
+        jtblEmployees.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Quantity", "Supplier", "Cost"
+                "ID", "Name", "Role", "Contact", "Username", "Password"
             }
         ));
-        jScrollPane1.setViewportView(jtblIngredients);
+        jScrollPane1.setViewportView(jtblEmployees);
 
         btnAddEmp.setText("Add Employee");
 
@@ -173,7 +174,7 @@ public class Employees extends javax.swing.JFrame {
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnUpdEmp;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtblIngredients;
+    private javax.swing.JTable jtblEmployees;
     private javax.swing.JLabel lblEmployeeInfo;
     // End of variables declaration//GEN-END:variables
 }
