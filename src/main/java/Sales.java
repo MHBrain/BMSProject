@@ -4,47 +4,51 @@
  * and open the template in the editor.
  */
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Max
  */
-public class Products extends javax.swing.JFrame {
+public class Sales extends javax.swing.JFrame {
 
     /**
      * Creates new form Ingredients
      */
-    public Products() {
+    public Sales() {
         initComponents();
-        loadProductData();
+        updateTable();
     }
+    
+    public void updateTable() {
+        DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel();
+        model.setRowCount(0);
 
-    public void loadProductData() {
-    DefaultTableModel model = (DefaultTableModel) jtblProducts.getModel();
-    model.setRowCount(0);
+    String query = "SELECT * FROM tblIngredients";
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
+             PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery("SELECT * FROM tblProducts")) {
+            String[] columnNames = {"IngredientID", "IngredientName", "IngredientQuantity", "SupplierID", "UnitCost", "NeedsReorder"};
+            model.setColumnIdentifiers(columnNames);
 
-        while (rs.next()) {
-            Object[] row = new Object[5];
-            row[0] = rs.getInt("ProductID");
-            row[1] = rs.getString("ProductName");
-            row[2] = rs.getInt("ProductQuantity");
-            row[3] = rs.getInt("UnitPrice");
-            row[4] = rs.getBoolean("NeedsProduction");
-
-            model.addRow(row);
+            while (rs.next()) {
+                Object[] row = {
+                    rs.getInt("IngredientID"),
+                    rs.getString("IngredientName"),
+                    rs.getInt("IngredientQuantity"),
+                    rs.getInt("SupplierID"),
+                    rs.getBigDecimal("UnitCost"),
+                    rs.getBoolean("NeedsReorder")
+                };
+                model.addRow(row);
+            }
+            
+        } catch (SQLException e) {
+        	System.out.println("Database Error: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("Database Error: " + e.getMessage());
-    }
     }
 
     
@@ -58,11 +62,11 @@ public class Products extends javax.swing.JFrame {
     private void initComponents() {
 
         btnHome = new javax.swing.JButton();
-        lblProductManagement = new javax.swing.JLabel();
+        lblIngredientManagement = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtblProducts = new javax.swing.JTable();
-        btnAddProd = new javax.swing.JButton();
-        btnUpdProd = new javax.swing.JButton();
+        jtblIngredients = new javax.swing.JTable();
+        btnAddSale = new javax.swing.JButton();
+        btnUpdSale = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -74,32 +78,32 @@ public class Products extends javax.swing.JFrame {
             }
         });
 
-        lblProductManagement.setText("Product Management");
+        lblIngredientManagement.setText("Sales Management");
 
-        jtblProducts.setModel(new javax.swing.table.DefaultTableModel(
+        jtblIngredients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Quantity", "Price", "Produce?"
+                "ID", "Name", "Quantity", "Supplier ID", "Unit Cost", "Reorder?"
             }
         ));
-        jScrollPane1.setViewportView(jtblProducts);
+        jScrollPane1.setViewportView(jtblIngredients);
 
-        btnAddProd.setText("Add Product");
-        btnAddProd.addActionListener(new java.awt.event.ActionListener() {
+        btnAddSale.setText("Add Sale");
+        btnAddSale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddProdActionPerformed(evt);
+                btnAddSaleActionPerformed(evt);
             }
         });
 
-        btnUpdProd.setText("Update Product");
-        btnUpdProd.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdSale.setText("Update Sale");
+        btnUpdSale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdProdActionPerformed(evt);
+                btnUpdSaleActionPerformed(evt);
             }
         });
 
@@ -115,22 +119,20 @@ public class Products extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnHome)
-                        .addGap(64, 64, 64)
-                        .addComponent(lblProductManagement)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRefresh))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(btnAddProd)
-                        .addGap(63, 63, 63)
-                        .addComponent(btnUpdProd)
-                        .addGap(0, 88, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(btnHome)
+                .addGap(64, 64, 64)
+                .addComponent(lblIngredientManagement)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addComponent(btnRefresh)
                 .addContainerGap())
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAddSale)
+                .addGap(69, 69, 69)
+                .addComponent(btnUpdSale)
+                .addGap(93, 93, 93))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,14 +140,14 @@ public class Products extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHome)
-                    .addComponent(lblProductManagement)
+                    .addComponent(lblIngredientManagement)
                     .addComponent(btnRefresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddProd)
-                    .addComponent(btnUpdProd))
+                    .addComponent(btnAddSale)
+                    .addComponent(btnUpdSale))
                 .addGap(22, 22, 22))
         );
 
@@ -155,22 +157,22 @@ public class Products extends javax.swing.JFrame {
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
         // TODO add your handling code here
         new Home().setVisible(true);
-        this.dispose(); 
+        this.dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
-    private void btnAddProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProdActionPerformed
+    private void btnAddSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSaleActionPerformed
         // TODO add your handling code here:
-        new ProductAdd().setVisible(true);
-    }//GEN-LAST:event_btnAddProdActionPerformed
+        new IngredientAdd().setVisible(true);
+    }//GEN-LAST:event_btnAddSaleActionPerformed
 
-    private void btnUpdProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdProdActionPerformed
+    private void btnUpdSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdSaleActionPerformed
         // TODO add your handling code here:
-        new ProductUpdate().setVisible(true);
-    }//GEN-LAST:event_btnUpdProdActionPerformed
+        new IngredientUpdate().setVisible(true);
+    }//GEN-LAST:event_btnUpdSaleActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
-        loadProductData();
+        updateTable();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
@@ -209,12 +211,12 @@ public class Products extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddProd;
+    private javax.swing.JButton btnAddSale;
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnRefresh;
-    private javax.swing.JButton btnUpdProd;
+    private javax.swing.JButton btnUpdSale;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtblProducts;
-    private javax.swing.JLabel lblProductManagement;
+    private javax.swing.JTable jtblIngredients;
+    private javax.swing.JLabel lblIngredientManagement;
     // End of variables declaration//GEN-END:variables
 }
