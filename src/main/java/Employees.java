@@ -4,10 +4,7 @@
  * and open the template in the editor.
  */
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,25 +22,29 @@ public class Employees extends javax.swing.JFrame {
     }
 
     public void loadEmployeeData() {
-    DefaultTableModel model = (DefaultTableModel) jtblEmployees.getModel();
-    model.setRowCount(0); // empties the table current values
+    DefaultTableModel model = (DefaultTableModel) jtblEmployees.getModel(); //defaulttablemodel so i can add rows
+    model.setRowCount(0); //clear table of previous values (for refresh) 
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery("SELECT * FROM tblEmployees")) {
+    String query = "SELECT * FROM tblEmployees";
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N"); //make connection to database
+         PreparedStatement pstmt = conn.prepareStatement(query); //prevent SQL injection
+         ResultSet rs = pstmt.executeQuery("SELECT * FROM tblEmployees")) { //data from database
 
-        while (rs.next()) {
-            Object[] row = new Object[6];
-            row[0] = rs.getInt("EmployeeID");
-            row[1] = rs.getString("EmployeeName");
-            row[2] = rs.getString("Role");
-            row[3] = rs.getString("ContactInfo");
-            row[4] = rs.getString("Username");
-            row[5] = rs.getString("Password");
-            model.addRow(row);
+        while (rs.next()) { //iterate through resultset
+            Object[] row = { //create array for column data
+                rs.getInt("EmployeeID"),
+                rs.getString("EmployeeName"),
+                rs.getString("Role"),
+                rs.getString("ContactInfo"),
+                rs.getString("Username"),
+                rs.getString("Password")
+                //populate array with data
+            };
+            model.addRow(row); //add array as row
         }
+
     } catch (Exception e) {
-        System.out.println("Database Error: " + e.getMessage());
+        System.out.println("Database Error: " + e.getMessage()); //display error msg
     }
     }
 
