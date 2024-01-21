@@ -150,11 +150,11 @@ public class Home extends javax.swing.JFrame {
 
     private void btnTestConnectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestConnectionActionPerformed
         // TODO add your handling code here:
-        boolean connection = DatabaseAccess.sqlTestDBConnection();
+        boolean connection = DatabaseAccess.sqlTestDBConnection(); //tests whether connection is successful
         if (connection == true) {
-            System.out.println("Connection made, gj.");
+            System.out.println("Connection made.");
         } else {
-            System.out.println("lol unlucky loser");
+            System.out.println("Connection failed.");
         }
     }//GEN-LAST:event_btnTestConnectionActionPerformed
 
@@ -167,6 +167,7 @@ public class Home extends javax.swing.JFrame {
     private void btnSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalesActionPerformed
         // TODO add your handling code here:
             this.dispose();
+            new Sales().setVisible(true);
     }//GEN-LAST:event_btnSalesActionPerformed
 
     private void btnEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmployeesActionPerformed

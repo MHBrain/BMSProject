@@ -9,29 +9,29 @@
  * @author 1-MBrain
  */
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Login extends javax.swing.JFrame {
-    
+
     private static final String CONN_URL = "jdbc:mysql://computing.gfmat.org:3306/";
     private static final String DB_NAME = "BMSProject";
     private static final String USERNAME = "MBrain";
     private static final String PASSWORD = "hkFfdZ2X3N";
-    
+    //:
     private boolean loginFunction(String username, String password) {
-    String sql = "SELECT * FROM tblEmployees WHERE Username = '" + username + "' AND Password = '" + password + "'";
-    try (Connection conn = DriverManager.getConnection(CONN_URL + DB_NAME, USERNAME, PASSWORD);
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql)) {
+    String sql = "SELECT * FROM tblEmployees WHERE Username = ? AND Password = ?"; //make statement with placeholders
+    
+    try (Connection conn = DriverManager.getConnection(CONN_URL + DB_NAME, USERNAME, PASSWORD); //make connection to database
+         PreparedStatement pstmt = conn.prepareStatement(sql)) { //prevent SQL injection
 
-        return rs.next();
+        pstmt.setString(1, username); //set username to first placeholder
+        pstmt.setString(2, password); //set password to second placeholder
 
+        try (ResultSet rs = pstmt.executeQuery()) { //execute query and store data in resultset
+            return rs.next(); //return true if record exists: successful login
+        }
     } catch (Exception e) {
-        System.out.println("Database Error: " + e.getMessage());
+        System.out.println("Database Error: " + e.getMessage()); //display error msg
         return false;
     }
 }

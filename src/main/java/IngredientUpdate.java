@@ -232,6 +232,8 @@ public class IngredientUpdate extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        
+        //retrieve & validate data from GUI forms using ValidationRoutines
         String name = txtName.getText();
         if (!ValidationRoutines.isValidString(name, "name", this)) {
             return;
@@ -254,31 +256,31 @@ public class IngredientUpdate extends javax.swing.JFrame {
 
         boolean needsReorder = chkNeedsOrder.isSelected();
 
-        String query = "UPDATE tblIngredients SET "
-                         + "IngredientName = COALESCE(?, IngredientName), "
+        String query = "UPDATE tblIngredients SET " //make statement with placeholders
+                         + "IngredientName = COALESCE(?, IngredientName), " //COALESCE means fields can be left blank if nothing needs to be changed
                          + "IngredientQuantity = COALESCE(?, IngredientQuantity), "
                          + "UnitCost = COALESCE(?, UnitCost), "
                          + "NeedsReorder = ?, "
                          + "SupplierID = COALESCE(?, SupplierID) "
                          + "WHERE IngredientID = ?";
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); //connect to database using predefined fields (different method of connection to usual, wanted to try this)
+             PreparedStatement pstmt = conn.prepareStatement(query)) { //prevent SQL injection
 
             pstmt.setString(1, name.isEmpty() ? null : name);
             pstmt.setObject(2, quantity);
             pstmt.setObject(3, unitCost);
             pstmt.setBoolean(4, needsReorder);
             pstmt.setObject(5, supplierId);
-
-            int updatedRows = pstmt.executeUpdate();
+            //set placeholder values to form data
+            int updatedRows = pstmt.executeUpdate(); //execute SQL statement
             if (updatedRows > 0) {
-                JOptionPane.showMessageDialog(this, "Ingredient updated successfully!");
+                JOptionPane.showMessageDialog(this, "Ingredient updated successfully!"); //success message if rows were updated
             } else {
-                JOptionPane.showMessageDialog(this, "No changes were made or ingredient not found.");
+                JOptionPane.showMessageDialog(this, "No changes were made or ingredient not found."); //message for if there was no change
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error updating ingredient: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error updating ingredient: " + ex.getMessage()); //display error message
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -304,25 +306,26 @@ public class IngredientUpdate extends javax.swing.JFrame {
 
     private void btnFindItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindItemActionPerformed
         // TODO add your handling code here:
-       int id = Integer.parseInt(txtIDInput.getText());
-        String query = "SELECT * FROM tblIngredients WHERE IngredientID = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+       int id = Integer.parseInt(txtIDInput.getText()); //convert IDInput into an integer
+        String query = "SELECT * FROM tblIngredients WHERE IngredientID = ?"; //select all information from ingredient with placeholder ID
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); //connect to database
+             PreparedStatement pstmt = conn.prepareStatement(query)) { //prevent SQL injection
 
-            pstmt.setInt(1, id);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
+            pstmt.setInt(1, id); //set placeholder to IDInput
+            try (ResultSet rs = pstmt.executeQuery()) { //executes SELECT query and stores in resultset
+                if (rs.next()) { //check if query returned something and either updates or sends "not found" message
                     txtNewID.setText(String.valueOf(rs.getInt("IngredientID")));
                     txtName.setText(rs.getString("IngredientName"));
                     txtQuantity.setText(String.valueOf(rs.getInt("IngredientQuantity")));
                     txtCost.setText(rs.getBigDecimal("UnitCost").toPlainString());
                     chkNeedsOrder.setSelected(rs.getBoolean("NeedsReorder"));
+                    //populate fields with data
                 } else {
-                    JOptionPane.showMessageDialog(this, "Ingredient not found!");
+                    JOptionPane.showMessageDialog(this, "Ingredient not found!"); //not found message
                 }
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error during search: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error during search: " + ex.getMessage()); //display error message
         }
 
     }//GEN-LAST:event_btnFindItemActionPerformed

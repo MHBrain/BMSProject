@@ -163,6 +163,8 @@ public class IngredientAdd extends javax.swing.JFrame {
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
         // TODO add your handling code here:
+        
+        //retrieve & validate data from GUI forms using ValidationRoutines
         String name = txtName.getText();
         if (!ValidationRoutines.isValidString(name, "name", this)) {
             return;
@@ -186,23 +188,24 @@ public class IngredientAdd extends javax.swing.JFrame {
         boolean needsReorder = chkNeedsOrder.isSelected();
 
 
-        String insertQuery = "INSERT INTO tblIngredients (IngredientName, IngredientQuantity, UnitCost, NeedsReorder, SupplierID) VALUES (?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO tblIngredients (IngredientName, IngredientQuantity, UnitCost, NeedsReorder, SupplierID) VALUES (?, ?, ?, ?, ?)"; //make statement with placeholders
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
-             PreparedStatement pstmt = conn.prepareStatement(insertQuery)) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N"); //make connection to database
+             PreparedStatement pstmt = conn.prepareStatement(insertQuery)) { //prevent SQL injection
 
             pstmt.setString(1, name);
             pstmt.setInt(2, quantity);
             pstmt.setBigDecimal(3, unitCost);
             pstmt.setBoolean(4, needsReorder);
             pstmt.setInt(5, supplierId);
-
-            int insertedRows = pstmt.executeUpdate();
+            //set placeholder values to form data
+            
+            int insertedRows = pstmt.executeUpdate(); //insert data
             if (insertedRows > 0) {
-                JOptionPane.showMessageDialog(this, "Ingredient added successfully!");
+                JOptionPane.showMessageDialog(this, "Ingredient added successfully!");//if rows have been inserted, success message
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error adding ingredient: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error adding ingredient: " + ex.getMessage());//if no rows have been inserted, error message
         }
     }//GEN-LAST:event_AddButtonActionPerformed
 

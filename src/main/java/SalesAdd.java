@@ -10,12 +10,12 @@ import java.math.BigDecimal;
  *
  * @author Max
  */
-public class ProductAdd extends javax.swing.JFrame {
+public class SalesAdd extends javax.swing.JFrame {
 
     /**
      * Creates new form InventoryUpdate
      */
-    public ProductAdd() {
+    public SalesAdd() {
         initComponents();
     }
 
@@ -29,29 +29,30 @@ public class ProductAdd extends javax.swing.JFrame {
     private void initComponents() {
 
         lblAddIngredient = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
+        txtProductID = new javax.swing.JTextField();
         txtQuantity = new javax.swing.JTextField();
-        txtUnitPrice = new javax.swing.JTextField();
+        txtSaleDate = new javax.swing.JTextField();
         AddButton = new javax.swing.JButton();
-        lblName = new javax.swing.JLabel();
+        lblProductID = new javax.swing.JLabel();
         lblQuantity = new javax.swing.JLabel();
-        lblUnitPrice = new javax.swing.JLabel();
-        chkNeedsProduction = new javax.swing.JCheckBox();
+        lblUnitCost = new javax.swing.JLabel();
+        lblSaleAmount = new javax.swing.JLabel();
+        txtSaleAmount = new javax.swing.JTextField();
         btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblAddIngredient.setText("Add Product");
+        lblAddIngredient.setText("Record Sale");
 
-        txtName.addActionListener(new java.awt.event.ActionListener() {
+        txtProductID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNameActionPerformed(evt);
+                txtProductIDActionPerformed(evt);
             }
         });
 
-        txtUnitPrice.addActionListener(new java.awt.event.ActionListener() {
+        txtSaleDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUnitPriceActionPerformed(evt);
+                txtSaleDateActionPerformed(evt);
             }
         });
 
@@ -62,16 +63,17 @@ public class ProductAdd extends javax.swing.JFrame {
             }
         });
 
-        lblName.setText("Name");
+        lblProductID.setText("ProductID");
 
-        lblQuantity.setText("Quantity");
+        lblQuantity.setText("Quantity Sold");
 
-        lblUnitPrice.setText("Unit Price");
+        lblUnitCost.setText("Sale Date");
 
-        chkNeedsProduction.setText("Needs Production?");
-        chkNeedsProduction.addActionListener(new java.awt.event.ActionListener() {
+        lblSaleAmount.setText("Sale Amount");
+
+        txtSaleAmount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkNeedsProductionActionPerformed(evt);
+                txtSaleAmountActionPerformed(evt);
             }
         });
 
@@ -87,22 +89,19 @@ public class ProductAdd extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblName)
-                            .addComponent(lblQuantity)
-                            .addComponent(lblUnitPrice))
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(chkNeedsProduction)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                    .addComponent(lblProductID)
+                    .addComponent(lblQuantity)
+                    .addComponent(lblUnitCost)
+                    .addComponent(lblSaleAmount))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSaleDate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtProductID, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSaleAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(34, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,19 +124,21 @@ public class ProductAdd extends javax.swing.JFrame {
                     .addComponent(btnClose))
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblProductID)
+                    .addComponent(txtProductID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblQuantity)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUnitPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUnitPrice))
-                .addGap(18, 18, 18)
-                .addComponent(chkNeedsProduction)
-                .addGap(42, 42, 42)
+                    .addComponent(txtSaleDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUnitCost))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSaleAmount)
+                    .addComponent(txtSaleAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(57, 57, 57)
                 .addComponent(AddButton)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
@@ -149,55 +150,65 @@ public class ProductAdd extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         //retrieve & validate data from GUI forms using ValidationRoutines
-        String name = txtName.getText();
-        if (!ValidationRoutines.isValidString(name, "name", this)) {
+        Integer productId = ValidationRoutines.parseInteger(txtProductID.getText(), "product ID", this);
+        if (productId == null) {
             return;
         }
 
-        Integer quantity = ValidationRoutines.parseInteger(txtQuantity.getText(), "quantity", this);
-        if (quantity == null || quantity <= 0) {
+        Integer quantitySold = ValidationRoutines.parseInteger(txtQuantity.getText(), "quantity sold", this);
+        if (quantitySold == null || quantitySold <= 0) {
             return;
         }
 
-        BigDecimal unitPrice = ValidationRoutines.parseBigDecimal(txtUnitPrice.getText(), "unit price", this);
-        if (unitPrice == null) {
+        BigDecimal totalSaleAmount = ValidationRoutines.parseBigDecimal(txtSaleAmount.getText(), "total sale amount", this);
+        if (totalSaleAmount == null) {
             return;
         }
 
-        boolean needsProduction = chkNeedsProduction.isSelected();
+        String saleDate = txtSaleDate.getText();
+        if (!ValidationRoutines.isValidString(saleDate, "sale date", this)) {
+            return;
+        }
 
 
-        String insertQuery = "INSERT INTO tblProducts (ProductName, ProductQuantity, UnitPrice, NeedsProduction) VALUES (?, ?, ?, ?)"; //make statement with placeholders
+        String insertSaleQuery = "INSERT INTO tblSales (ProductID, QuantitySold, SaleDate, TotalSaleAmount) VALUES (?, ?, ?, ?)"; //make statement with placeholders
+        String updateProductQuery = "UPDATE tblProducts SET ProductQuantity = ProductQuantity - ? WHERE ProductID = ?"; //make placeholder statement for decreasing product quantity
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N"); //connect to database
-             PreparedStatement pstmt = conn.prepareStatement(insertQuery)) { //prevent SQL injection
+        try {
+            // Open a connection and create the prepared statements
+            Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N"); //make connection to database
+            PreparedStatement insertSaleStmt = conn.prepareStatement(insertSaleQuery); //prevent SQL injection
+            PreparedStatement updateProductStmt = conn.prepareStatement(updateProductQuery);//prevent SQL injection
 
-            pstmt.setString(1, name);
-            pstmt.setInt(2, quantity);
-            pstmt.setBigDecimal(3, unitPrice);
-            pstmt.setBoolean(4, needsProduction);
+            insertSaleStmt.setInt(1, productId);
+            insertSaleStmt.setInt(2, quantitySold);
+            insertSaleStmt.setString(3, saleDate);
+            insertSaleStmt.setBigDecimal(4, totalSaleAmount);
             //set placeholder values to form data
-            
-            int insertedRows = pstmt.executeUpdate();
-            if (insertedRows > 0) {
-                JOptionPane.showMessageDialog(this, "Product added successfully!"); //if rows have been inserted, success message
-            }
+            insertSaleStmt.executeUpdate();
+            //execute insert statement to add new record
+            updateProductStmt.setInt(1, quantitySold);
+            updateProductStmt.setInt(2, productId);
+            //set placeholder values to decrease product quantity
+            updateProductStmt.executeUpdate();
+            //execute update statement to decrease quantity
+            JOptionPane.showMessageDialog(this, "Sale recorded successfully."); //display success msg
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error adding product: " + ex.getMessage());//if no rows have been inserted, error message
+            JOptionPane.showMessageDialog(this, "Error adding sale record." + ex.getMessage()); //display error msg
         }
     }//GEN-LAST:event_AddButtonActionPerformed
 
-    private void txtUnitPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUnitPriceActionPerformed
+    private void txtSaleDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSaleDateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUnitPriceActionPerformed
+    }//GEN-LAST:event_txtSaleDateActionPerformed
 
-    private void chkNeedsProductionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNeedsProductionActionPerformed
+    private void txtSaleAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSaleAmountActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_chkNeedsProductionActionPerformed
+    }//GEN-LAST:event_txtSaleAmountActionPerformed
 
-    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+    private void txtProductIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameActionPerformed
+    }//GEN-LAST:event_txtProductIDActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         // TODO add your handling code here:
@@ -245,13 +256,14 @@ public class ProductAdd extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
     private javax.swing.JButton btnClose;
-    private javax.swing.JCheckBox chkNeedsProduction;
     private javax.swing.JLabel lblAddIngredient;
-    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblProductID;
     private javax.swing.JLabel lblQuantity;
-    private javax.swing.JLabel lblUnitPrice;
-    private javax.swing.JTextField txtName;
+    private javax.swing.JLabel lblSaleAmount;
+    private javax.swing.JLabel lblUnitCost;
+    private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtQuantity;
-    private javax.swing.JTextField txtUnitPrice;
+    private javax.swing.JTextField txtSaleAmount;
+    private javax.swing.JTextField txtSaleDate;
     // End of variables declaration//GEN-END:variables
 }

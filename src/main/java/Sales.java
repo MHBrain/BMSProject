@@ -23,34 +23,33 @@ public class Sales extends javax.swing.JFrame {
     }
     
     public void updateTable() {
-        DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel();
-        model.setRowCount(0);
+        DefaultTableModel model = (DefaultTableModel) tblSales.getModel(); //defaulttablemodel so i can add rows
+        model.setRowCount(0); //clear table of previous values (for refresh) 
 
-    String query = "SELECT * FROM tblIngredients";
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
-             PreparedStatement pstmt = conn.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
+    String query = "SELECT * FROM tblSales";
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N"); //make connection to database
+             PreparedStatement pstmt = conn.prepareStatement(query); //prevent SQL injection
+             ResultSet rs = pstmt.executeQuery()) { //data from database
 
-            String[] columnNames = {"IngredientID", "IngredientName", "IngredientQuantity", "SupplierID", "UnitCost", "NeedsReorder"};
-            model.setColumnIdentifiers(columnNames);
+            String[] columnNames = {"SaleID", "ProductID", "QuantitySold", "SaleDate", "TotalSaleAmount"}; //create array of strings to set in table
+            model.setColumnIdentifiers(columnNames); //defines column identifiers
 
-            while (rs.next()) {
-                Object[] row = {
-                    rs.getInt("IngredientID"),
-                    rs.getString("IngredientName"),
-                    rs.getInt("IngredientQuantity"),
-                    rs.getInt("SupplierID"),
-                    rs.getBigDecimal("UnitCost"),
-                    rs.getBoolean("NeedsReorder")
+            while (rs.next()) { //iterate through resultset
+                Object[] row = { //create array for column data
+                    rs.getInt("SaleID"),
+                    rs.getInt("ProductID"),
+                    rs.getInt("QuantitySold"),
+                    rs.getDate("SaleDate"),
+                    rs.getBigDecimal("TotalSaleAmount"),
+                    //populate array with data
                 };
-                model.addRow(row);
+                model.addRow(row); //add array as row
             }
             
         } catch (SQLException e) {
-        	System.out.println("Database Error: " + e.getMessage());
+        	System.out.println("Database Error: " + e.getMessage()); //display error message
         }
     }
-
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,9 +61,9 @@ public class Sales extends javax.swing.JFrame {
     private void initComponents() {
 
         btnHome = new javax.swing.JButton();
-        lblIngredientManagement = new javax.swing.JLabel();
+        lblSalesManagement = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtblIngredients = new javax.swing.JTable();
+        tblSales = new javax.swing.JTable();
         btnAddSale = new javax.swing.JButton();
         btnUpdSale = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
@@ -78,20 +77,20 @@ public class Sales extends javax.swing.JFrame {
             }
         });
 
-        lblIngredientManagement.setText("Sales Management");
+        lblSalesManagement.setText("Sales Management");
 
-        jtblIngredients.setModel(new javax.swing.table.DefaultTableModel(
+        tblSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Quantity", "Supplier ID", "Unit Cost", "Reorder?"
+                "SaleID", "ProductID", "QuantitySold", "SaleDate", "SaleAmount"
             }
         ));
-        jScrollPane1.setViewportView(jtblIngredients);
+        jScrollPane1.setViewportView(tblSales);
 
         btnAddSale.setText("Add Sale");
         btnAddSale.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +121,7 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnHome)
                 .addGap(64, 64, 64)
-                .addComponent(lblIngredientManagement)
+                .addComponent(lblSalesManagement)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                 .addComponent(btnRefresh)
                 .addContainerGap())
@@ -140,7 +139,7 @@ public class Sales extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHome)
-                    .addComponent(lblIngredientManagement)
+                    .addComponent(lblSalesManagement)
                     .addComponent(btnRefresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
@@ -162,12 +161,12 @@ public class Sales extends javax.swing.JFrame {
 
     private void btnAddSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSaleActionPerformed
         // TODO add your handling code here:
-        new IngredientAdd().setVisible(true);
+        new SalesAdd().setVisible(true);
     }//GEN-LAST:event_btnAddSaleActionPerformed
 
     private void btnUpdSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdSaleActionPerformed
         // TODO add your handling code here:
-        new IngredientUpdate().setVisible(true);
+        new SalesUpdate().setVisible(true);
     }//GEN-LAST:event_btnUpdSaleActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -216,7 +215,7 @@ public class Sales extends javax.swing.JFrame {
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnUpdSale;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jtblIngredients;
-    private javax.swing.JLabel lblIngredientManagement;
+    private javax.swing.JLabel lblSalesManagement;
+    private javax.swing.JTable tblSales;
     // End of variables declaration//GEN-END:variables
 }

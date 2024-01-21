@@ -214,34 +214,53 @@ public class ProductUpdate extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        
+        //retrieve & validate data from GUI forms using ValidationRoutines
         Integer productId = ValidationRoutines.parseInteger(txtIDInput.getText(), "product ID", this);
         if (productId == null) {
             return;
         }
-
         String productName = txtName.getText();
+        if (!ValidationRoutines.isValidString(productName, "product name", this)) {
+            return;
+        }
+
         Integer productQuantity = ValidationRoutines.parseInteger(txtQuantity.getText(), "product quantity", this);
+        if (productQuantity == null || productQuantity <= 0) {
+            return;
+        }
+
         BigDecimal unitPrice = ValidationRoutines.parseBigDecimal(txtPrice.getText(), "product price", this);
+        if (unitPrice == null || unitPrice.compareTo(BigDecimal.ZERO) <= 0) {
+            return;
+        }
+
         boolean needsProduction = chkNeedsProduction.isSelected();
 
-        String updateQuery = "UPDATE tblProducts SET ProductName = ?, ProductQuantity = ?, UnitPrice = ?, NeedsProduction = ? WHERE ProductID = ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
-             PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+        String updateQuery = "UPDATE tblProducts SET " //make statement with placeholders
+                     + "ProductName = COALESCE(?, ProductName), " //COALESCE means fields can be left blank if nothing needs to be changed
+                     + "ProductQuantity = COALESCE(?, ProductQuantity), "
+                     + "UnitPrice = COALESCE(?, UnitPrice), "
+                     + "NeedsProduction = ? "
+                     + "WHERE ProductID = ?";
 
-            pstmt.setString(1, productName);
-            pstmt.setObject(2, productQuantity);
-            pstmt.setObject(3, unitPrice);
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N"); //connect to database
+             PreparedStatement pstmt = conn.prepareStatement(updateQuery)) { //prevent SQL injection
+
+            pstmt.setString(1, productName.isEmpty() ? null : productName);
+            pstmt.setObject(2, productQuantity == null ? null : productQuantity);
+            pstmt.setObject(3, unitPrice == null ? null : unitPrice);
             pstmt.setBoolean(4, needsProduction);
             pstmt.setInt(5, productId);
-
-            int updatedRows = pstmt.executeUpdate();
+            //set placeholder values to form data
+            int updatedRows = pstmt.executeUpdate(); //execute SQL statement
             if (updatedRows > 0) {
-                JOptionPane.showMessageDialog(this, "Product updated successfully!");
+                JOptionPane.showMessageDialog(this, "Product updated successfully!"); //success message if rows were updated
             } else {
-                JOptionPane.showMessageDialog(this, "No changes were made or product not found.");
+                JOptionPane.showMessageDialog(this, "No changes were made or product not found."); //message for if there was no change
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error updating product: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error updating product: " + ex.getMessage()); //display error message
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -267,25 +286,26 @@ public class ProductUpdate extends javax.swing.JFrame {
 
     private void btnFindItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindItemActionPerformed
         // TODO add your handling code here:
-       int id = Integer.parseInt(txtIDInput.getText());
-        String query = "SELECT * FROM tblProducts WHERE ProductID = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+       int id = Integer.parseInt(txtIDInput.getText()); //convert IDInput into an integer
+        String query = "SELECT * FROM tblProducts WHERE ProductID = ?"; //select all information from product with placeholder ID
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); //connect to database
+             PreparedStatement pstmt = conn.prepareStatement(query)) { //prevent SQL injection
 
-            pstmt.setInt(1, id);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
+            pstmt.setInt(1, id); //set placeholder to IDInput
+            try (ResultSet rs = pstmt.executeQuery()) { //executes SELECT query and stores in resultset
+                if (rs.next()) { //check if query returned something and either updates or sends "not found" message
                     txtNewID.setText(String.valueOf(rs.getInt("ProductID")));
                     txtName.setText(rs.getString("ProductName"));
                     txtQuantity.setText(String.valueOf(rs.getInt("ProductQuantity")));
                     txtPrice.setText(rs.getBigDecimal("UnitPrice").toPlainString());
                     chkNeedsProduction.setSelected(rs.getBoolean("NeedsProduction"));
+                    //populate fields with data
                 } else {
-                    JOptionPane.showMessageDialog(this, "Product not found!");
+                    JOptionPane.showMessageDialog(this, "Product not found!"); //not found message
                 }
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error during search: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error during search: " + ex.getMessage()); //display error message
         }
     }//GEN-LAST:event_btnFindItemActionPerformed
 

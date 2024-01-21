@@ -19,7 +19,7 @@ public class SalesUpdate extends javax.swing.JFrame {
     private static final String PASS = "hkFfdZ2X3N";
 
     /**
-     * Creates new form InventoryUpdate
+     *
      */
     public SalesUpdate() {
         initComponents();
@@ -198,6 +198,8 @@ public class SalesUpdate extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        
+        //retrieve & validate data from GUI forms using ValidationRoutines
         Integer saleId = ValidationRoutines.parseInteger(txtIDInput.getText(), "sale ID", this);
         if (saleId == null) {
             return;
@@ -223,29 +225,29 @@ public class SalesUpdate extends javax.swing.JFrame {
             return;
         }
 
-        String updateSaleQuery = "UPDATE tblSales SET "
-                                 + "ProductID = COALESCE(?, ProductID), "
+        String updateSaleQuery = "UPDATE tblSales SET " //make statement with placeholders
+                                 + "ProductID = COALESCE(?, ProductID), " //COALESCE means fields can be left blank if nothing needs to be changed
                                  + "QuantitySold = COALESCE(?, QuantitySold), "
                                  + "SaleDate = COALESCE(?, SaleDate), "
                                  + "TotalSaleAmount = COALESCE(?, TotalSaleAmount) "
                                  + "WHERE SaleID = ?";
 
-        String updateProductQuantityQuery = "UPDATE tblProducts SET "
+        String updateProductQuantityQuery = "UPDATE tblProducts SET " //make statement to change product quantity with placeholders
                                             + "ProductQuantity = ProductQuantity - ? "
                                             + "WHERE ProductID = ?";
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement updateSaleStmt = conn.prepareStatement(updateSaleQuery);
-             PreparedStatement updateProductStmt = conn.prepareStatement(updateProductQuantityQuery)) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); //connect to database using predefined fields
+             PreparedStatement updateSaleStmt = conn.prepareStatement(updateSaleQuery); //prevent SQL injection
+             PreparedStatement updateProductStmt = conn.prepareStatement(updateProductQuantityQuery)) { //prevent SQL injection
 
             updateSaleStmt.setObject(1, productId);
             updateSaleStmt.setObject(2, quantitySold);
             updateSaleStmt.setString(3, saleDate);
             updateSaleStmt.setBigDecimal(4, totalSaleAmount);
             updateSaleStmt.setInt(5, saleId);
-
+            //set placeholder values to form data
             int updatedSaleRows = updateSaleStmt.executeUpdate();
-
+            //execute update statement
             if (updatedSaleRows > 0) {
                 updateProductStmt.setInt(1, quantitySold);
                 updateProductStmt.setInt(2, productId);
@@ -253,15 +255,15 @@ public class SalesUpdate extends javax.swing.JFrame {
                 int updatedProductRows = updateProductStmt.executeUpdate();
 
                 if (updatedProductRows > 0) {
-                    JOptionPane.showMessageDialog(this, "Sale and product quantity updated successfully!");
+                    JOptionPane.showMessageDialog(this, "Sale and product quantity updated successfully!"); //success message if rows were updated
                 } else {
-                    JOptionPane.showMessageDialog(this, "Sale updated but product quantity not updated.");
+                    JOptionPane.showMessageDialog(this, "Sale updated but product quantity not updated."); //message for updated sale but no quantity change
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "No changes were made or sale not found.");
+                JOptionPane.showMessageDialog(this, "No changes were made or sale not found."); //message for if there was no change
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error updating sale: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error updating sale: " + ex.getMessage()); //display error message
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -282,24 +284,25 @@ public class SalesUpdate extends javax.swing.JFrame {
     }//GEN-LAST:event_txtQuantityActionPerformed
 
     private void btnFindItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindItemActionPerformed
-        int saleId = Integer.parseInt(txtIDInput.getText());
-        String query = "SELECT * FROM tblSales WHERE SaleID = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        int saleId = Integer.parseInt(txtIDInput.getText()); //convert IDInput into an integer
+        String query = "SELECT * FROM tblSales WHERE SaleID = ?"; //select all information from sales with placeholder ID
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); //connect to database
+             PreparedStatement pstmt = conn.prepareStatement(query)) { //prevent SQL injection
 
-            pstmt.setInt(1, saleId);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
+            pstmt.setInt(1, saleId); //set placeholder to IDInput
+            try (ResultSet rs = pstmt.executeQuery()) { //executes SELECT query and stores in resultset
+                if (rs.next()) { //check if query returned something and either updates or sends "not found" message
                     txtProductID.setText(String.valueOf(rs.getInt("ProductID")));
                     txtQuantity.setText(String.valueOf(rs.getInt("QuantitySold")));
-                    txtSaleDate.setText(rs.getDate("SaleDate").toString()); // Assuming txtDate is a JTextField
+                    txtSaleDate.setText(rs.getDate("SaleDate").toString());
                     txtSaleAmount.setText(rs.getBigDecimal("TotalSaleAmount").toPlainString());
+                    //populate fields with data
                 } else {
-                    JOptionPane.showMessageDialog(this, "Sale not found!");
+                    JOptionPane.showMessageDialog(this, "Sale not found!"); //not found message
                 }
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error during search: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error during search: " + ex.getMessage()); //display error message
         }
     }//GEN-LAST:event_btnFindItemActionPerformed
 

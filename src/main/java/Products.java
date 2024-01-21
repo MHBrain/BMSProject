@@ -4,10 +4,8 @@
  * and open the template in the editor.
  */
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,25 +23,26 @@ public class Products extends javax.swing.JFrame {
     }
 
     public void loadProductData() {
-    DefaultTableModel model = (DefaultTableModel) jtblProducts.getModel();
-    model.setRowCount(0);
+    DefaultTableModel model = (DefaultTableModel) jtblProducts.getModel(); //defaulttablemodel so i can add rows
+    model.setRowCount(0); //clear table of previous values (for refresh) 
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery("SELECT * FROM tblProducts")) {
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N"); //make connection to database
+     PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM tblProducts"); //prevent SQL injection
+     ResultSet rs = pstmt.executeQuery()) { //data from database
 
-        while (rs.next()) {
-            Object[] row = new Object[5];
+        while (rs.next()) { //iterate through resultset
+            Object[] row = new Object[5]; //create array of size 5
             row[0] = rs.getInt("ProductID");
             row[1] = rs.getString("ProductName");
             row[2] = rs.getInt("ProductQuantity");
             row[3] = rs.getInt("UnitPrice");
             row[4] = rs.getBoolean("NeedsProduction");
-
-            model.addRow(row);
+            //populate array with data
+            //i know this method is inconsistent with my previous attempt in the ingredients table, but i wanted to try this
+            model.addRow(row); //add array as row to the table
         }
     } catch (Exception e) {
-        System.out.println("Database Error: " + e.getMessage());
+        System.out.println("Database Error: " + e.getMessage()); //display error message
     }
     }
 

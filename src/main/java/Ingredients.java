@@ -23,31 +23,33 @@ public class Ingredients extends javax.swing.JFrame {
     }
     
     public void updateTable() {
-        DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel();
-        model.setRowCount(0);
+        
+        DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel(); //defaulttablemodel so i can add rows
+        model.setRowCount(0); //clear table of previous values (for refresh) 
 
     String query = "SELECT * FROM tblIngredients";
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N");
-             PreparedStatement pstmt = conn.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://computing.gfmat.org:3306/BMSProject", "MBrain", "hkFfdZ2X3N"); //make connection to database
+             PreparedStatement pstmt = conn.prepareStatement(query); //prevent SQL injection
+             ResultSet rs = pstmt.executeQuery()) { //data from database
 
-            String[] columnNames = {"IngredientID", "IngredientName", "IngredientQuantity", "SupplierID", "UnitCost", "NeedsReorder"};
-            model.setColumnIdentifiers(columnNames);
+            String[] columnNames = {"IngredientID", "IngredientName", "IngredientQuantity", "SupplierID", "UnitCost", "NeedsReorder"}; //create array of strings to set in table
+            model.setColumnIdentifiers(columnNames); //defines column identifiers
 
-            while (rs.next()) {
-                Object[] row = {
+            while (rs.next()) { //iterate through resultset
+                Object[] row = { //create array for column data
                     rs.getInt("IngredientID"),
                     rs.getString("IngredientName"),
                     rs.getInt("IngredientQuantity"),
                     rs.getInt("SupplierID"),
                     rs.getBigDecimal("UnitCost"),
                     rs.getBoolean("NeedsReorder")
+                    //populate array with data
                 };
-                model.addRow(row);
+                model.addRow(row); //add array as row
             }
             
         } catch (SQLException e) {
-        	System.out.println("Database Error: " + e.getMessage());
+        	System.out.println("Database Error: " + e.getMessage()); //display error msg
         }
     }
 
