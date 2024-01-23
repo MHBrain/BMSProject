@@ -6,7 +6,7 @@ import com.DatabaseAccess;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import javax.swing.*;
 /**
  *
  * @author 1-MBrain
@@ -150,11 +150,11 @@ public class Home extends javax.swing.JFrame {
 
     private void btnTestConnectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestConnectionActionPerformed
         // TODO add your handling code here:
-        boolean connection = DatabaseAccess.sqlTestDBConnection(); //tests whether connection is successful
-        if (connection == true) {
-            System.out.println("Connection made.");
+        boolean connection = DatabaseAccess.sqlTestDBConnection(); // Tests whether connection is successful
+        if (connection) {
+            JOptionPane.showMessageDialog(this, "Connection made.", "Connection Status", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            System.out.println("Connection failed.");
+            JOptionPane.showMessageDialog(this, "Connection failed.", "Connection Status", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnTestConnectionActionPerformed
 
