@@ -48,6 +48,7 @@ public class SalesUpdate extends javax.swing.JFrame {
         lblUpdateProductID = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
         btnClose = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,6 +115,13 @@ public class SalesUpdate extends javax.swing.JFrame {
             }
         });
 
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,7 +129,9 @@ public class SalesUpdate extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(158, 158, 158)
                 .addComponent(btnUpdate)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDelete)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(txtIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,7 +195,9 @@ public class SalesUpdate extends javax.swing.JFrame {
                     .addComponent(txtSaleAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUpdateSaleAmount))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-                .addComponent(btnUpdate)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
                 .addContainerGap())
         );
 
@@ -311,6 +323,33 @@ public class SalesUpdate extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int saleId = Integer.parseInt(txtIDInput.getText()); //convert IDInput into an integer
+
+        String queryDeleteSale = "DELETE FROM tblSales WHERE SaleID = ?"; //SQL statement to delete record with placeholder ID
+        String queryUpdateProduct = "UPDATE tblProducts SET ProductQuantity = ProductQuantity + (SELECT QuantitySold FROM tblSales WHERE SaleID = ?) WHERE ProductID = (SELECT ProductID FROM tblSales WHERE SaleID = ?)"; //SQL statement to re-add product quantity used in sale
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); //make connection to database
+             PreparedStatement pstmtDeleteSale = conn.prepareStatement(queryDeleteSale); //prevent SQL injection
+             PreparedStatement pstmtUpdateProduct = conn.prepareStatement(queryUpdateProduct)) { //prevent SQL injection
+
+            pstmtDeleteSale.setInt(1, saleId); //set placeholder to IDInput
+            int deletedRows = pstmtDeleteSale.executeUpdate();
+
+            if (deletedRows > 0) { //if a row has been deleted, update product to reflect new quantity
+                pstmtUpdateProduct.setInt(1, saleId);
+                pstmtUpdateProduct.setInt(2, saleId);
+                pstmtUpdateProduct.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Sale deleted and product quantity updated successfully!"); //successful sale deletion and product quantity change message
+            } else {
+                JOptionPane.showMessageDialog(this, "Sale not found or could not be deleted."); //no sale found message
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error during deletion: " + ex.getMessage()); //deletion failure message
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -351,6 +390,7 @@ public class SalesUpdate extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnFindItem;
     private javax.swing.JToggleButton btnUpdate;
     private javax.swing.JLabel lblSelectedID;

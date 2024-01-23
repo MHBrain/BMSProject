@@ -51,6 +51,7 @@ public class IngredientUpdate extends javax.swing.JFrame {
         lblUpdateSupplier = new javax.swing.JLabel();
         txtSupplierID = new javax.swing.JTextField();
         btnClose = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -132,6 +133,13 @@ public class IngredientUpdate extends javax.swing.JFrame {
             }
         });
 
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,7 +147,9 @@ public class IngredientUpdate extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(158, 158, 158)
                 .addComponent(btnUpdate)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDelete)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(146, 146, 146)
                 .addComponent(chkNeedsOrder)
@@ -219,7 +229,9 @@ public class IngredientUpdate extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(chkNeedsOrder)
                 .addGap(18, 18, 18)
-                .addComponent(btnUpdate)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
                 .addContainerGap())
         );
 
@@ -339,6 +351,27 @@ public class IngredientUpdate extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int id = Integer.parseInt(txtIDInput.getText()); //convert IDInput into an integer
+        String query = "DELETE FROM tblIngredients WHERE IngredientID = ?"; //SQL statement to delete record with placeholder ID
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); //make connection to database
+             PreparedStatement pstmt = conn.prepareStatement(query)) { //prevent SQL injection
+
+            pstmt.setInt(1, id); //set placeholder to IDInput
+
+            int deletedRows = pstmt.executeUpdate(); 
+            if (deletedRows > 0) {
+                JOptionPane.showMessageDialog(this, "Ingredient deleted successfully!"); //successful deletion message
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingredient not found or could not be deleted."); //no deletion message
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error during deletion: " + ex.getMessage()); //failed deletion message
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -379,6 +412,7 @@ public class IngredientUpdate extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnFindItem;
     private javax.swing.JToggleButton btnUpdate;
     private javax.swing.JCheckBox chkNeedsOrder;
