@@ -330,6 +330,7 @@ public class IngredientUpdate extends javax.swing.JFrame {
                     txtName.setText(rs.getString("IngredientName"));
                     txtQuantity.setText(String.valueOf(rs.getInt("IngredientQuantity")));
                     txtCost.setText(rs.getBigDecimal("UnitCost").toPlainString());
+                    txtSupplierID.setText(String.valueOf(rs.getInt("SupplierID)")));
                     chkNeedsOrder.setSelected(rs.getBoolean("NeedsReorder"));
                     //populate fields with data
                 } else {
