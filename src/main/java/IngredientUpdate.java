@@ -284,6 +284,7 @@ public class IngredientUpdate extends javax.swing.JFrame {
             pstmt.setObject(3, unitCost);
             pstmt.setBoolean(4, needsReorder);
             pstmt.setObject(5, supplierId);
+            pstmt.setInt(6, Integer.parseInt(txtIDInput.getText()));
             //set placeholder values to form data
             int updatedRows = pstmt.executeUpdate(); //execute SQL statement
             if (updatedRows > 0) {
