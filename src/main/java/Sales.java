@@ -129,9 +129,9 @@ public class Sales extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAddSale)
-                .addGap(69, 69, 69)
+                .addGap(75, 75, 75)
                 .addComponent(btnUpdSale)
-                .addGap(93, 93, 93))
+                .addGap(85, 85, 85))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
