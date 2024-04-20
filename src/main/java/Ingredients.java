@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+// the Ingredients page displays the ingredients information in a table, and allows the user to access the IngredientAdd and IngredientUpdate page.
+
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +25,7 @@ public class Ingredients extends javax.swing.JFrame {
     }
     
     public void updateTable() {
-        
+        //this method occupies the table with data retrieved from the database
         DefaultTableModel model = (DefaultTableModel) jtblIngredients.getModel(); //defaulttablemodel so i can add rows
         model.setRowCount(0); //clear table of previous values (for refresh) 
 

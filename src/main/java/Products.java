@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+// the Products page displays the products information in a table, and allows the user to access the ProductAdd and ProductUpdate page.
+
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +25,7 @@ public class Products extends javax.swing.JFrame {
     }
 
     public void loadProductData() {
+    //this method occupies the table with data retrieved from the database
     DefaultTableModel model = (DefaultTableModel) jtblProducts.getModel(); //defaulttablemodel so i can add rows
     model.setRowCount(0); //clear table of previous values (for refresh) 
 

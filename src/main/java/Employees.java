@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+// the Employees page displays the employees relevant information in a table. 
+
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,6 +24,7 @@ public class Employees extends javax.swing.JFrame {
     }
 
     public void loadEmployeeData() {
+    //this method occupies the table with data from the database
     DefaultTableModel model = (DefaultTableModel) jtblEmployees.getModel(); //defaulttablemodel so i can add rows
     model.setRowCount(0); //clear table of previous values (for refresh) 
 

@@ -9,6 +9,8 @@
  * @author 1-MBrain
  */
 
+//The login page allows an authorised user to gain access to the system, and prevents people without correct credentials from entering the system.
+
 import java.sql.*;
 
 public class Login extends javax.swing.JFrame {

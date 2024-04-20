@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 
+//The IngredientUpdate page allows the user to update or delete an ingredient in the database.
+
+
 import java.sql.*;
 import javax.swing.*;
 import java.math.BigDecimal;
@@ -244,7 +247,8 @@ public class IngredientUpdate extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        
+        //this method updates the selected record to reflect the data recorded in the fields
+
         //retrieve & validate data from GUI forms using ValidationRoutines
         String name = txtName.getText();
         if (!ValidationRoutines.isValidString(name, "name", this)) {
@@ -319,6 +323,8 @@ public class IngredientUpdate extends javax.swing.JFrame {
 
     private void btnFindItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindItemActionPerformed
         // TODO add your handling code here:
+        //this method selects a record from the database using the input ID
+        
        int id = Integer.parseInt(txtIDInput.getText()); //convert IDInput into an integer
         String query = "SELECT * FROM tblIngredients WHERE IngredientID = ?"; //select all information from ingredient with placeholder ID
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); //connect to database
@@ -355,6 +361,7 @@ public class IngredientUpdate extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
+        //this method deletes the selected record from the database
         int id = Integer.parseInt(txtIDInput.getText()); //convert IDInput into an integer
         String query = "DELETE FROM tblIngredients WHERE IngredientID = ?"; //SQL statement to delete record with placeholder ID
 

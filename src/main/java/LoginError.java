@@ -8,6 +8,9 @@
  *
  * @author 1-MBrain
  */
+
+//The LoginError page notifies the user that their login credentials are invalid.
+
 public class LoginError extends javax.swing.JFrame {
 
     /**

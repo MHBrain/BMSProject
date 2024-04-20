@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+//The SalesUpdate page allows the user to update or delete a sale in the database.
+
 import java.sql.*;
 import javax.swing.*;
 import java.math.BigDecimal;
@@ -210,6 +212,7 @@ public class SalesUpdate extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        //this method updates the selected record to reflect the data recorded in the fields
         
         //retrieve & validate data from GUI forms using ValidationRoutines
         Integer saleId = ValidationRoutines.parseInteger(txtIDInput.getText(), "sale ID", this);
@@ -296,6 +299,7 @@ public class SalesUpdate extends javax.swing.JFrame {
     }//GEN-LAST:event_txtQuantityActionPerformed
 
     private void btnFindItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindItemActionPerformed
+        //this method selects a record from the database using the input ID
         int saleId = Integer.parseInt(txtIDInput.getText()); //convert IDInput into an integer
         String query = "SELECT * FROM tblSales WHERE SaleID = ?"; //select all information from sales with placeholder ID
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS); //connect to database
@@ -325,6 +329,8 @@ public class SalesUpdate extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
+        //this method deletes the selected record from the database
+        
         int saleId = Integer.parseInt(txtIDInput.getText()); //convert IDInput into an integer
 
         String queryDeleteSale = "DELETE FROM tblSales WHERE SaleID = ?"; //SQL statement to delete record with placeholder ID

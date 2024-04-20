@@ -27,11 +27,11 @@ public class DatabaseAccess {
     public static boolean sqlTestDBConnection() {
         boolean connection;
         try (Connection con = DriverManager.getConnection(CONN_URL + DB_NAME, USERNAME, PASSWORD)){
-            System.out.println("Connection made. Gratz.");
+            System.out.println("Connection made.");
             connection = true;
             con.close();
         } catch (Exception error) {
-            System.out.println("Error. Unlucky :p  " + error.getMessage());
+            System.out.println("Connection failed." + error.getMessage());
             connection = false;
         }
         return connection;

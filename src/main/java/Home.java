@@ -1,11 +1,11 @@
-
-import com.DatabaseAccess;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+//the Home page acts as a directory for the user to navigate to different pages
+import com.DatabaseAccess;
 import javax.swing.*;
 /**
  *

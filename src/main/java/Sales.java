@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+// the Sales page displays the sales information in a table, and allows the user to access the SalesAdd and SalesUpdate page.
+
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +25,7 @@ public class Sales extends javax.swing.JFrame {
     }
     
     public void updateTable() {
+    //this method occupies the table with data retrieved from the database
         DefaultTableModel model = (DefaultTableModel) tblSales.getModel(); //defaulttablemodel so i can add rows
         model.setRowCount(0); //clear table of previous values (for refresh) 
 

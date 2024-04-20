@@ -3,6 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+//The ProductAdd page allows the user to add a new product to the database.
+
 import java.sql.*;
 import javax.swing.*;
 import java.math.BigDecimal;
@@ -147,7 +150,8 @@ public class ProductAdd extends javax.swing.JFrame {
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
         // TODO add your handling code here:
-        
+        //this method adds the data recorded in the fields to the database
+
         //retrieve & validate data from GUI forms using ValidationRoutines
         String name = txtName.getText();
         if (!ValidationRoutines.isValidString(name, "name", this)) {
